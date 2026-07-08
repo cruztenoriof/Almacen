@@ -21,7 +21,8 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    @Column(name = "ID_PRODUCTO")
+    private long id;
 
     @Column (name = "NOMBRE", nullable = false, length = 30)
     private String nombre;
@@ -36,10 +37,8 @@ public class Producto {
     @Column(name = "CANTIDAD", nullable = false)
     private Integer cantidad;
 
-    public void actualizar(String nombre, Categoria categoria,
-                           BigDecimal precio, Integer cantidad) {
+    public void actualizar(String nombre, Categoria categoria, BigDecimal precio, Integer cantidad){
         validarDatos(nombre, categoria, precio, cantidad);
-
     this.nombre = nombre.trim();
     this.categoria = categoria;
     this.precio = precio;
@@ -57,7 +56,7 @@ public class Producto {
         this.cantidad -= cantidad;
     }
 
-    public Producto(String nombre, Categoria categoria, BigDecimal precio, Integer cantidad) {
+    private void validarDatos(String nombre, Categoria categoria, BigDecimal precio, Integer cantidad) {
 
         StringCustomUtils.validarTamanio(nombre, 5, 30,
                 "El nombre es requerido y debe tener 5 y 30 caracteres");

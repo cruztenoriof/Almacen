@@ -7,10 +7,10 @@ import com.francisco.almacen.enums.Categoria;
 import org.springframework.stereotype.Component;
 
 @Component
-public @interface ProductoMapper {
+public class ProductoMapper {
 
     public Producto requestAEntidad(ProductoRequets requets, Categoria categoria){
-        if (requets=null) return null;
+        if (requets ==null) return null;
         return Producto.builder ()
                 .nombre(requets.nombre().trim())
                 .categoria(categoria)
@@ -19,12 +19,12 @@ public @interface ProductoMapper {
                 .build();
     }
     public ProductoResponse entidadAReponse(Producto producto){
-        if (producto=null) return null;
+        if (producto ==null) return null;
 
         return new ProductoResponse(
                 producto.getId(),
                 producto.getNombre (),
-                producto.getCategoria().getDescrpcion(),
+                producto.getCategoria().getDescripcion(),
                 producto.getPrecio(),
                 producto.getCantidad ()
         );
