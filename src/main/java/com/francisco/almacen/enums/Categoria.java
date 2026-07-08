@@ -9,13 +9,13 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum Categoria {
 
-    ALIMENTO,
-    HIGIENE,
-    JUGUETE,
-    ELECTRONICA,
-    ROPA,
-    ACCESORIO,
-    FARMARCIA;
+    ALIMENTO("Alimento"),
+    HIGIENE("Higiene"),
+    JUGUETE("Juguete"),
+    ELECTRONICA("Electronica"),
+    ROPA("Ropa"),
+    ACCESORIO("Accesorio"),
+    FARMACIA("Farmacia");
 
     private final String descripcion;
 
@@ -25,9 +25,10 @@ public enum Categoria {
         String descripcionNormalizada = StringCustomUtils.quitarAcentos(descripcion.trim());
 
         for (Categoria categoria : values()) {
-            if (StringCustomUtils.quitarAcentos(categoria.descripcion).equalsIgnoreCase(descripcionNormalizada))
+            if (StringCustomUtils.quitarAcentos(categoria.getDescripcion()).equalsIgnoreCase(descripcionNormalizada)) {
                 return categoria;
-            throw new RecursoNoEncontradoException("No existe una categoría con la descripcion: " + descripcion);
+            }
         }
+        throw new RecursoNoEncontradoException("No existe una categoría con la descripcion: " + descripcion);
     }
 }
