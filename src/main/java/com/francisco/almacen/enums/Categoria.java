@@ -17,7 +17,7 @@ public enum Categoria {
     ACCESORIO("Accesorio"),
     FARMACIA("Farmacia");
 
-    private final String descripcion;
+    private final String Descripcion;
 
     public static Categoria obtenerCategoriaPorDescripcion(String descripcion) {
         StringCustomUtils.validarNoVacio(descripcion, "La descripción es requerida");

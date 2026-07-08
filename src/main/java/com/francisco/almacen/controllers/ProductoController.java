@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +27,12 @@ public class ProductoController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductoResponse> obtenerPorId(
             @PathVariable @Positive(message = "El ID deber ser positivo") Long id) {
-        return ResponseEntity.ok(productoServices.obtenerporID(id));
+        return ResponseEntity.ok(productoServices.obtenerPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<ProductoResponse> registrar(@Valid @RequestBody ProductoRequets requets) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productoServices.registar(requets));
+        return ResponseEntity.status(HttpStatus.CREATED).body(productoServices.registrar(requets));
     }
 
     @PutMapping("/{id}")
@@ -44,7 +43,7 @@ public class ProductoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> elimar(
+    public ResponseEntity<Void> eliminar(
             @PathVariable @Positive(message = "El ID deber ser positivo") Long id) {
         productoServices.eliminar(id);
         return ResponseEntity.noContent().build();
