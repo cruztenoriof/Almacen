@@ -7,5 +7,5 @@ public record ProductoResponse(
         String nombre,
         String categoria,
         BigDecimal precio,
-        Integer Catidad
+        Integer cantidad
 ){}
