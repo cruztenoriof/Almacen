@@ -6,10 +6,10 @@ import com.francisco.almacen.dto.ventas.DetalleVentaRequest;
 import com.francisco.almacen.dto.ventas.DetalleVentaResponse;
 import com.francisco.almacen.dto.ventas.VentaResponse;
 import com.francisco.almacen.dto.ventas.VentasRequest;
-import com.francisco.almacen.entities.DetalleVenta;
 import com.francisco.almacen.entities.Producto;
 import com.francisco.almacen.entities.Sucursal;
 import com.francisco.almacen.entities.Venta;
+import com.francisco.almacen.entities.DetalleVenta;
 import com.francisco.almacen.enums.EstadoVenta;
 import com.francisco.almacen.exceptions.RecursoNoEncontradoException;
 import com.francisco.almacen.repositores.ProductoRepository;
@@ -38,7 +38,6 @@ public class VentaServiceImpl implements VentaService {
     @Transactional(readOnly = true)
     public List<VentaResponse> listarActivas() {
         log.info("Listando todas las ventas activas con estado REGISTRADA");
-        // Usamos stream dentro de la transacción para mantener abierta la sesión LAZY
         return ventaRepository.buscarConEstado(EstadoVenta.REGISTRADA).stream()
                 .map(this::convertirAEntityResponse)
                 .toList();
@@ -71,14 +70,13 @@ public class VentaServiceImpl implements VentaService {
                         "Sucursal no encontrada con ID: " + request.idSucursal()));
 
         Venta ventaCompleta = new Venta(
-                null, EstadoVenta.REGISTRADA, LocalDate.now(), sucursalReal, new java.util.ArrayList<>()
+                null, EstadoVenta.REGISTRADA, LocalDate.now(), sucursalReal, new ArrayList<>()
         );
 
         for (DetalleVentaRequest prodRequest : request.productos()) {
             Producto producto = productoRepository.findById(prodRequest.idProducto())
                     .orElseThrow(() -> new RecursoNoEncontradoException(
                             "Producto no encontrado con ID: " + prodRequest.idProducto()));
-
             producto.descontarCantidad(prodRequest.cantidadProducto());
             productoRepository.save(producto);
 
@@ -120,9 +118,9 @@ public class VentaServiceImpl implements VentaService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ReporteVentasSucursalResponse> obtenerVentaPorSucursal() {
-        List.of("Generando reporte economico agregado por sucursales.");
+        log.info("Generando reporte economico agregado por sucursales."); // 🔥 Corregido log.info
         return ventaRepository.obtenerReporteEconomicoPorSucursal();
     }
 
