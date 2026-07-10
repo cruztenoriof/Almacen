@@ -1,7 +1,7 @@
 package com.francisco.almacen.servicies.Sucursal;
 
-import com.francisco.almacen.dto.productos.SucursalResponse;
-import com.francisco.almacen.dto.productos.SucursalesRequest;
+import com.francisco.almacen.dto.Sucursales.SucursalResponse;
+import com.francisco.almacen.dto.Sucursales.SucursalesRequest;
 import com.francisco.almacen.entities.Sucursal;
 import com.francisco.almacen.exceptions.RecursoNoEncontradoException;
 import com.francisco.almacen.mappers.SucursalMapper;

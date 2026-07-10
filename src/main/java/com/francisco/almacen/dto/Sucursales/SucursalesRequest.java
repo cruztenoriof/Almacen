@@ -1,4 +1,4 @@
-package com.francisco.almacen.dto.productos;
+package com.francisco.almacen.dto.Sucursales;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

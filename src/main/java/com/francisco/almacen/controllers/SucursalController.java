@@ -1,7 +1,7 @@
 package com.francisco.almacen.controllers;
 
-import com.francisco.almacen.dto.productos.SucursalResponse;
-import com.francisco.almacen.dto.productos.SucursalesRequest;
+import com.francisco.almacen.dto.Sucursales.SucursalResponse;
+import com.francisco.almacen.dto.Sucursales.SucursalesRequest;
 import com.francisco.almacen.servicies.Sucursal.SucursalService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;

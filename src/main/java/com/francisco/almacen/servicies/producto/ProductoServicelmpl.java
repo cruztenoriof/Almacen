@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -25,9 +26,10 @@ public class ProductoServicelmpl implements ProductoServices {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ProductoResponse> listar() {
+    public List<ProductoResponse> listar(String nombre, String categoria, BigDecimal precioMin, BigDecimal precioMax) {
         log.info("Listando todos los productos");
-        return productoRepository.findAll().stream()
+        return productoRepository.buscarConFiltrosAvanzados(nombre, categoria, precioMin, precioMax)
+                .stream()
                 .map(productoMapper::entidadAReponse)
                 .toList();
     }
@@ -41,8 +43,8 @@ public class ProductoServicelmpl implements ProductoServices {
     @Override
     public ProductoResponse registrar(ProductoRequets requets) {
         log.info("Registrando nuevo producto...");
-        Categoria categoria= Categoria.obtenerCategoriaPorDescripcion(requets.categoria());
-        Producto producto= productoMapper.requestAEntidad(requets, categoria);
+        Categoria categoria = Categoria.obtenerCategoriaPorDescripcion(requets.categoria());
+        Producto producto = productoMapper.requestAEntidad(requets, categoria);
         productoRepository.save(producto);
         log.info("Nuevo producto {} registrado", producto.getNombre());
 
@@ -51,8 +53,8 @@ public class ProductoServicelmpl implements ProductoServices {
 
     @Override
     public ProductoResponse actualizar(ProductoRequets requets, Long id) {
-        Producto producto= obtenerProducto0Exception(id);
-        Categoria categoria= Categoria.obtenerCategoriaPorDescripcion(requets.categoria());
+        Producto producto = obtenerProducto0Exception(id);
+        Categoria categoria = Categoria.obtenerCategoriaPorDescripcion(requets.categoria());
         log.info("Actualizando producto id: {}", id);
 
         producto.actualizar(
@@ -67,14 +69,15 @@ public class ProductoServicelmpl implements ProductoServices {
 
     @Override
     public void eliminar(Long id) {
-        Producto producto= obtenerProducto0Exception(id);
+        Producto producto = obtenerProducto0Exception(id);
         productoRepository.delete(producto);
-        log.info("Porducto con id {} eliminado", id);
-    }
-    private Producto obtenerProducto0Exception(Long id){
-        log.info("Buscando producto con id: {}", id);
-        return  productoRepository.findById(id).orElseThrow(
-                ()->new RecursoNoEncontradoException("Producto no encontrado con id: "+id));
+        log.info("Producto con id {} eliminado", id);
     }
 
+    private Producto obtenerProducto0Exception(Long id) {
+        log.info("Buscando producto con id: {}", id);
+        return productoRepository.findById(id).orElseThrow(
+                () -> new RecursoNoEncontradoException("Producto no encontrado con id: " + id));
+
+    }
 }

@@ -1,4 +1,4 @@
-package com.francisco.almacen.dto.productos;
+package com.francisco.almacen.dto.Sucursales;
 
 public record SucursalResponse(
         Long id,
